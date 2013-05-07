@@ -39,11 +39,51 @@ public class Sorter {
 	}
 
     private void quicksortList(ListElement left, ListElement right) {
-       ListElement pivot = partition(left, right);
-
+        ListElement pivot = partition(left, right);
+        quicksortList(left, pivot);
+        quicksortList(pivot, right);
     }
 
     private ListElement partition(ListElement left, ListElement right) {
+        ListElement leftCopy = left;
+        ListElement rightCopy = right;
+        //TODO Find a way to remember the first element
+
+        int pvalue = right.getKey();
+        ListElement pivot = right;
+        right = right.prev;
+        while (left != right) {
+            //TODO Check other special cases
+            while (left.getKey() <= pvalue && left != right) {
+                left = left.next;
+            }
+            while (right.getKey() > pvalue && left != right) {
+                right = right.prev;
+            }
+            swapListElements(left, right);
+        }
+        swapListElements(leftCopy, pivot);
+        return pivot;
+    }
+
+    private void swapListElements(ListElement left, ListElement right) {
+        ListElement aux = left;
+        left = right;
+        right = aux;
+
+        ListElement leftNext = left.next;
+        ListElement leftPrev = left.prev;
+
+        left.next = right.next;
+        left.prev = right.prev;
+        left.prev.next = left;
+        left.next.prev = left;
+
+        right.next = leftNext;
+        right.prev = leftPrev;
+        right.prev.next = right;
+        right.next.prev = right;
+        //TODO What if left.next == right??
     }
 
 }
