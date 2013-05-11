@@ -35,9 +35,8 @@ public class Sorter {
         ListElement right = in.first.prev;
         quicksortList(left, right);
 
-        printList(left, right);
-        while (left.prev.getKey() < left.getKey()) left = left.next;
-        in.first = left;
+        while (left.next.getKey() >= left.getKey()) left = left.next;
+        in.first = left.next;
 		return in;
 	}
 
